@@ -61,3 +61,10 @@ fn test_smiley() {
 	let braille = braille_iter(&smiley, &127).collect::<String>();
 	println!("{braille}");
 }
+#[test]
+fn test_smiley_non_integer_multiple() {
+	let smiley = include_bytes!("../test-smiley-non-integer-multiple.png");
+	let smiley = image::load_from_memory_with_format(smiley, image::ImageFormat::Png).unwrap();
+	let braille = braille_iter(&smiley, &127).collect::<String>();
+	println!("{braille}");
+}
