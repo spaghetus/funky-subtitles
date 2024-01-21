@@ -15,33 +15,19 @@ where
 		.map(|(top, second, third, bottom)| {
 			(0..image.width())
 				.tuples()
-				.map(move |(left, right)| -> [(u32, u32); 8] {
-					iproduct!([left, right], [top, second, third, bottom])
-						.collect::<Vec<(u32, u32)>>()
-						.try_into()
-						.unwrap()
-				})
+				.map(move |(left, right)| iproduct!([left, right], [top, second, third, bottom]))
 		})
 		.map(|coordinates| {
-			coordinates
-				.into_iter()
-				.map(|block| -> [bool; 8] {
-					block
-						.into_iter()
-						.map(|(x, y)| image.get_pixel(x, y).channels()[0].clone())
-						.map(|value| &value >= threshold)
-						.collect::<Vec<_>>()
-						.try_into()
-						.unwrap()
-				})
-				.collect::<Vec<_>>()
+			coordinates.map(|block| {
+				block
+					.map(|(x, y)| image.get_pixel(x, y).channels()[0].clone())
+					.map(|value| &value >= threshold)
+			})
 		})
 		.flat_map(|elements| {
 			elements
-				.into_iter()
 				.map(|flags| -> [usize; 8] {
 					flags
-						.into_iter()
 						.map(Into::into)
 						.collect::<Vec<_>>()
 						.try_into()
