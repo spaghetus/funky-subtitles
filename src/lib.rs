@@ -1,7 +1,6 @@
 use braille::BRAILLE;
 use image::{GenericImageView, Pixel};
 use itertools::{iproduct, Itertools};
-use std::fmt::Debug;
 
 #[allow(clippy::missing_panics_doc)]
 pub fn braille_iter<'a, I, P, T>(
